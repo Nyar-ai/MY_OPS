@@ -269,8 +269,8 @@ MY_OPS/
 |---|---|---|
 | PC 单测（141 项，8 组） | CRC 标准向量 · CY-Z 协议解析/重同步 · 我方帧逐字节 · 几何解算 · 采样回绕与自适应超时 · ZUPT · 航向积分与丢帧冻结 · 零偏自愈 | `cd test` → `run_tests.bat` |
 | 语法检查 | 8 个非 RTOS 文件对**真实 CMSIS/HAL 头**做全量 `-Wall -Wextra` 检查 | `gcc -fsyntax-only …`（见 docs §11.3） |
-| 跨语言一致性 | 固件打包器导出 200 帧 → Python 解析：0 个 CRC 错、终值逐位吻合 | `python tools\pose_plot.py test\capture_demo.bin --csv out.csv` |
-| 上位机工具自检 | 无硬件、无 pyserial，用同一帧格式生成样例并自解析 | `python tools\pose_plot.py --demo` |
+| 跨语言一致性 | 固件打包器导出 200 帧 → Python 解析：0 个 CRC 错、终值逐位吻合 | `python tools\pose_plot.py test\capture_demo.bin --csv test\capture_demo.csv --png test\pose_plot.png` |
+| 上位机工具自检 | 无硬件、无 pyserial，用同一帧格式生成样例抓包并自解析 | `cd test` → `python ..\tools\pose_plot.py --demo` |
 
 ---
 
