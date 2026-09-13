@@ -27,4 +27,12 @@ void Ops_Init(void);
  */
 void Ops_Tasks_Init(void);
 
+/**
+ * @brief  三个业务线程是否全部创建成功
+ * @return 1=全部就绪；0=至少一个创建失败（通常是 FreeRTOS 堆不足，
+ *         osThreadNew 返回 NULL）。失败时 Ops_Tasks_Init 会点亮 PC13。
+ * @note   供 bring-up 自检使用；若需上报给底盘，可挂到状态字上。
+ */
+uint8_t Ops_Tasks_AllStarted(void);
+
 #endif /* OPS_TASKS_H */

@@ -44,6 +44,9 @@ static const osThreadAttr_t s_attr_cyz = {
     .priority = (osPriority_t)osPriorityNormal,
 };
 
+/* 三个业务线程句柄。
+ * osThreadNew() 在 FreeRTOS 堆不足时会返回 NULL，因此必须保留返回值以便自检
+ * （见 Ops_Tasks_AllStarted()）——否则表现为"某个任务静默不运行"，很难排查。 */
 static osThreadId_t s_id_sample;
 static osThreadId_t s_id_link;
 static osThreadId_t s_id_cyz;
@@ -114,6 +117,21 @@ void Ops_Tasks_Init(void)
     s_id_sample = osThreadNew(ops_sample_task, NULL, &s_attr_sample);
     s_id_link = osThreadNew(ops_link_task, NULL, &s_attr_link);
     s_id_cyz = osThreadNew(ops_cyz_task, NULL, &s_attr_cyz);
+
+    /* 创建失败（几乎只会是 configTOTAL_HEAP_SIZE 不足）时长亮 PC13：
+     * 这是唯一"上电就看得见"的指示——缺线程时不会有任何帧上报，
+     * 不点灯的话现象与"程序根本没跑起来"无法区分。正常情况保持熄灭。 */
+    if (Ops_Tasks_AllStarted() == 0u) {
+        Ops_Hw_LedSet(1u);
+    }
+}
+
+uint8_t Ops_Tasks_AllStarted(void)
+{
+    if ((s_id_sample == NULL) || (s_id_link == NULL) || (s_id_cyz == NULL)) {
+        return 0u;
+    }
+    return 1u;
 }
 
 /* ===================== 1kHz 采样 + 融合 ===================== */
