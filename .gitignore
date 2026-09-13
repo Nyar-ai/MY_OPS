@@ -1,0 +1,32 @@
+# ---- 构建输出（不纳入版本控制）----
+MDK-ARM/build/
+MDK-ARM/*.build_log.htm
+*.o
+*.d
+*.crf
+*.dep
+*.axf
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.htm
+*.lnp
+
+# ---- PC 单测产物 ----
+test/test_ops.exe
+test/capture_demo.bin
+test/capture_demo.csv
+test/pose_plot.png
+
+# ---- EIDE / CubeMX 本地文件 ----
+MDK-ARM/.eide/.tabSize
+.mxproject.bak
+*.ioc.bak
+
+# ---- 编辑器/系统 ----
+.vscode/settings.json
+.idea/
+Thumbs.db
+desktop.ini
